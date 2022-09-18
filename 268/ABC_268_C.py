@@ -1,6 +1,3 @@
-from collections import deque
-from mimetypes import init
-
 n = int(input())
 
 p = list(map(int,input().split()))
