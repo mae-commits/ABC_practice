@@ -24,5 +24,5 @@ for i in range(1,N+1):
     # A_cum[i]-Kとなるものをカウント
     ans+=X[A_cum[i]-K]
 
-# 答えを出力
+# Outpit answers
 print(ans)
