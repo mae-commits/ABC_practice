@@ -10,4 +10,3 @@ for i in range(k):
         x -= top_rest * (10 ** i)
 
 print(x)
-        

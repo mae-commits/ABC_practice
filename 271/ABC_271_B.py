@@ -13,4 +13,3 @@ for i in range(q):
     
 for i in range(q):
     print(sequences[s_t[i][0]][s_t[i][1]])
-    
