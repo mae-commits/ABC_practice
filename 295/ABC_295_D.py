@@ -52,7 +52,3 @@ ans = 0
 for t in table:
     ans+=t*(t-1)//2
 print(ans)
-
-
-
-
