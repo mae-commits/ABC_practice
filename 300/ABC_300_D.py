@@ -16,7 +16,7 @@ def search_simple_number(num):
         
 N = int(input())
 
-simple_number_list, length = search_simple_number(N)
+simple_number_list, length = search_simple_number(int((N)**0.5))
 
 if length <= 2:
     print(0)
@@ -25,14 +25,15 @@ if length <= 2:
 ans = 0
     
 for i in range(length-2):
+    if simple_number_list[i] > int(math.ceil(N**0.2)):
+        break
     for j in range(i+1, length-1):
+        multi = simple_number_list[i] * simple_number_list[i] * simple_number_list[j]
+        if multi > int(math.ceil(N**0.6)):
+            break
         for k in range(j+1, length):
-            a_square = simple_number_list[i] ** 2
-            b = simple_number_list[j]
-            c_square = simple_number_list[k] ** 2
-            multi = a_square * b * c_square
-            if multi <= N:
+            if multi * simple_number_list[k] * simple_number_list[k] <= N:
                 ans += 1
             else:
-                continue
+                break
 print(ans)
