@@ -1,20 +1,26 @@
-import numpy as np
+from collections import deque as d
 
 N, M, D = map(int, input().split())
 
-A = np.array(list(map(int, input().split())))
-B = np.array(list(map(int, input().split())))
+A = d(sorted(list(map(int, input().split()))))
+B = d(sorted(list(map(int, input().split()))))
 
 ans = -1
+A_max = A.pop()
+B_max = B.pop()
 
-# A を固定した際のBの各要素との差を計算
-dif = np.array([])
-
-for i in range(N):
-    A_i = A[i]
-    dif = B - A_i
-    comp_list = np.array([A_i + B[j] for j in range(M) if abs(dif[j]) <= D])
-    if len(comp_list) >= 1:
-        ans = max(ans, max(comp_list))
-    
+while True:
+    if abs(A_max - B_max) <= D:
+        ans = A_max + B_max
+        break
+    elif A_max > B_max:
+        if len(A) >= 1:
+            A_max = A.pop()
+        else:
+            break
+    elif A_max < B_max:
+        if len(B) >= 1:
+            B_max = B.pop()
+        else:
+            break
 print(ans)
