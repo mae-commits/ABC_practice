@@ -1,10 +1,12 @@
-n, x = map(int,input().split())
+N, X = map(int, input().split())
 
-coins = list(list(map(int,input().split())) for i in range(n))
+# 目的の金額を bit で管理
+s = 1 << X
 
-coins = sorted(coins)
+for _ in range(N):
+    a, b = map(int, input().split())
+    # 硬貨 a で支払える金額をbitで保持
+    for _ in range(b):
+        s |= s >> a
 
-dp = [[] for i in range(n+1)]
-
-dp[0].append(x)
-
+print("Yes" if s & 1 else "No")
