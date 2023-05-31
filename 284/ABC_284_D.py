@@ -1,19 +1,16 @@
 import math
 
-# 素数のうち、小さい方の素数を判定
-def judge(num):
-    prime_numbers = [2]
-    for i in range(3, int(pow(num, 1/3))):
-        for j in range(int(math.sqrt(i))+1):
-            if i%j == 0:
-                break
-            
-
 # テストケースの数
 T = int(input())
 
-prime_numbers = []
 
 for i in range(T):
     # 入力
     test = int(input())
+    for j in range(2, int(math.pow(test, 1/3))+1):
+        if test % (j ** 2) == 0:
+            print(j, test//(j ** 2))
+            break
+        elif test % j == 0:
+            print(int(math.sqrt(test/j)), j)
+            break
