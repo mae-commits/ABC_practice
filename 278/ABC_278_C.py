@@ -1,20 +1,16 @@
-n, q = map(int,input().split())
+from collections import defaultdict
 
-follow_list = set()
-ans = []
+n,q = map(int,input().split())
+data = defaultdict(set)
 
 for i in range(q):
-    t, a, b = map(int,input().split())
+    t,a,b = map(int,input().split())
     if t == 1:
-        follow_list.add(str(a) + str(b))
+        data[a].add(b)
     elif t == 2:
-        if (str(a) + str(b)) in follow_list:
-            follow_list.remove(str(a) + str(b))
+        data[a].discard(b)
     else:
-        if (str(a) + str(b)) in follow_list and (str(b) + str(a)) in follow_list:
-            ans.append('Yes')
+        if data[a].issuperset({b}) and data[b].issuperset({a}):
+            print("Yes")
         else:
-            ans.append('No')
-
-for i in range(len(ans)):
-    print(ans[i])
+            print("No")
