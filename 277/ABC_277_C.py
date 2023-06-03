@@ -1,11 +1,23 @@
-from collections import deque
+from collections import defaultdict, deque
 
-n, m = map(int,input().split())
+N = int(input())
 
-a = sorted(list(map(int,input().split())))
+graph = defaultdict(list)
 
-a = deque(a)
-continuous_sum = []
+for _ in range(N):
+    a, b = map(int, input().split())
+    graph[a].append(b)
+    graph[b].append(a)
 
-a_sum = sum(a)
+que = deque()
+que.append(1)
+S = {1}
 
+while que:
+    v = que.popleft()
+    for i in graph[v]:
+        if not i in S:
+            que.append(i)
+            S.add(i)
+
+print(max(S))
