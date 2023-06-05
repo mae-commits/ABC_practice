@@ -4,10 +4,10 @@ W, H = map(int, input().split())
 
 N = int(input())
 
-def binary_search(s, a, b):
+def binary_search(s, a, b, A, B):
     s_x, s_y = s[0], s[1]
-    left_a, right_a = 0, len(a) - 1
-    left_b, right_b = 0, len(b) - 1
+    left_a, right_a = 0, A - 1
+    left_b, right_b = 0, B - 1
 
     while left_a <= right_a:
         mid_a = (left_a + right_a) // 2
@@ -39,23 +39,23 @@ strawberries = deque([])
 for i in range(N):
     strawberries.append(list(map(int, input().split())))
 
-A = int(input())
+A = int(input()) + 2
 
-a = list(map(int, input().split()))
+a = [0] + list(map(int, input().split())) + [W]
 
-B = int(input())
+B = int(input()) + 2
 
-b = list(map(int, input().split()))
+b = [0] + list(map(int, input().split())) + [H]
 
 group = defaultdict(int)
 
 for i in range(N):
     strawberry = strawberries.popleft()
     # 2分探索でどの領域にあるかを確認
-    region = binary_search(strawberry, a, b)
+    region = binary_search(strawberry, a, b, A, B)
     group[region] += 1
 
-if len(group) == N:
+if N >= (A-1) * (B-1) and len(group) >= N:
     print(min(group.values()), max(group.values()))
 else:
     print(0, max(group.values()))
