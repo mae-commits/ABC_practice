@@ -35,34 +35,3 @@ class UnionFind():
     def size(self, x):
         return self.siz[self.root(x)]
 
-N, M = map(int, input().split())
-
-UF = UnionFind(N+1)
-
-# 元々のグラフ
-for i in range(M):
-    u, v = map(int, input().split())
-    UF.unite(u, v)
-
-K = int(input())
-
-# 繋げてはいけない組み合わせのメモ
-out = [set() for i in range(N+1)]
-
-# いいグラフである条件
-for i in range(K):
-    x, y = map(int, input().split())
-    root_x, root_y = UF.root(x), UF.root(y)
-    out[root_x].add(root_y)
-    out[root_y].add(root_x)
-
-Q = int(input())
-
-for i in range(Q):
-    # 追加で加える辺が結ぶ頂点
-    p, q = map(int, input().split())
-    # 追加で結んだ際にpに繋いではいけない頂点の根と一致した場合は"No"
-    if UF.root(q) in out[UF.root(p)]:
-        print("No")
-    else:
-        print("Yes")
