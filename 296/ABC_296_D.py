@@ -1,24 +1,13 @@
-def binary_search(N, M):
-    left = M
-    right = N ** 2
-    X = (left + right) // 2
-    if M <= N:
-        return M
-    for i in range(2, N//2 + 1):
-        if X % i == 0:
-            return X
-    if (N//2) ** 2 <= X:
-        left = X
-    else:
-        right = X
-    if left == right:
-        return -1
-    
 N, M = map(int, input().split())
+ans = 10 ** 12 + 1
 
-if M > N ** 2:
-    print("No")
-
-X = binary_search(N, M)
-
-print(X)
+for a in range(1, N+1):
+    b = (M+a-1)//a
+    if b <= N:
+        ans = min(ans, a*b)
+    if a > b:
+        break
+if ans == 10 ** 12 + 1:
+    print(-1)
+else:
+    print(ans)
