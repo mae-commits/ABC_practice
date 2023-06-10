@@ -1,9 +1,66 @@
-n, m = map(int,input().split())
+class UnionFind():
+    # 初期化
+    def __init__(self, n):
+        self.par = [-1] * n
+        self.rank = [0] * n
+        self.siz = [1] * n
 
-u,v = [],[]
+    # 根を求める
+    def root(self, x):
+        if self.par[x] == -1: return x # x が根の場合は x を返す
+        else:
+          self.par[x] = self.root(self.par[x]) # 経路圧縮
+          return self.par[x]
 
-for i in range(m):
-    u_i,v_i = map(int,input().split())
-    u.append(u_i)
-    v.append(v_i)
+    # x と y が同じグループに属するか (根が一致するか)
+    def issame(self, x, y):
+        return self.root(x) == self.root(y)
+
+    # x を含むグループと y を含むグループを併合する
+    def unite(self, x, y):
+        # x 側と y 側の根を取得する
+        rx = self.root(x)
+        ry = self.root(y)
+        if rx == ry: return False # すでに同じグループのときは何もしない
+        # union by rank
+        if self.rank[rx] < self.rank[ry]: # ry 側の rank が小さくなるようにする
+            rx, ry = ry, rx
+        self.par[ry] = rx # ry を rx の子とする
+        if self.rank[rx] == self.rank[ry]: # rx 側の rank を調整する
+            self.rank[rx] += 1
+        self.siz[rx] += self.siz[ry] # rx 側の siz を調整する
+        return True
     
+    # x を含む根付き木のサイズを求める
+    def size(self, x):
+        return self.siz[self.root(x)]
+
+N, M = map(int, input().split())
+
+UF = UnionFind(2 * N)
+
+for i in range(M):
+    u, v = map(int, input().split())
+    u, v = u-1, v-1
+    UF.unite(u, v+N)
+    UF.unite(v, u+N)
+    
+for i in range(N):
+    # 2部グラフであるかどうかの判定
+    # 偶数距離離れている & ループである場合には同じグループに i, i+N が含まれてしまう
+    if UF.issame(i, i+N):
+        print(0)
+        exit()
+    
+ans = N*(N-1)//2 - M
+
+# 連結部分の管理
+group = [0 for i in range(N)]
+
+for i in range(N):
+    group[UF.root(i)] += 1
+
+for j in range(N):
+    ans -= group[j] * (group[j]-1)//2
+    
+print(ans)

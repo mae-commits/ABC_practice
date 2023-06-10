@@ -1,14 +1,23 @@
-import itertools 
-
-n, k, d = map(int,input().split())
+N, K, D = map(int,input().split())
 
 a = list(map(int,input().split()))
 
-d_com = -1
+# a_1 ~ a_i まででj個が選ばれていて、総和をDで割ったあまりがkであるような総和の最大値 dp[i][j][k]
+dp = [[[-1 for _ in range(K+1)] for _ in range(N+1)] for _ in range(D)]
+dp[0][0][0] = 0
 
-for i in itertools.combinations_with_replacement(a, k):
-    sum_i = sum(i)
-    if sum_i >= 0 and sum_i % d == 0:
-        d_com = max(sum_i, d_com)
-
-print(d_com)
+for n in range(N):
+    for k in range(K+1):
+        for d in range(D):
+            if dp[d][n][k] >= 0:            
+                # a_i を選ばない場合
+                dp[d][n+1][k] = max(dp[d][n+1][k], dp[d][n][k])
+                
+                # a_i を選ぶ場合
+                if k != K:
+                    dp[(d+a[n])%D][n+1][k+1]=max(dp[d][n][k]+a[n],dp[(d+a[n])%D][n+1][k+1])
+            
+if dp[0][-1][-1]>=0:
+    print(dp[0][-1][-1])
+else:
+    print(-1)
