@@ -14,7 +14,6 @@ for i in range(1, N):
         sleep[i] = sleep[i-1]
 
 Q = int(input())
-dif = []
 
 # 各クエリの処理
 for i in range(Q):
